@@ -19,7 +19,8 @@ Autoloader::register();
 Settings::loadConfig();
 
 // Set writers
-$writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
+// $writers = array('Word2007' => 'docx', 'ODText' => 'odt', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
+$writers = array('Word2007' => 'docx', 'RTF' => 'rtf', 'HTML' => 'html', 'PDF' => 'pdf');
 
 // Set PDF renderer
 if (null === Settings::getPdfRendererPath()) {

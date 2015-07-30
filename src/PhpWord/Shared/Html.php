@@ -123,6 +123,7 @@ class Html
             'sup'       => array('Property',    null,   null,       $styles,    null,   'superScript',  true),
             'sub'       => array('Property',    null,   null,       $styles,    null,   'subScript',    true),
             'table'     => array('Table',       $node,  $element,   $styles,    null,   'addTable',     true),
+            'tbody'     => array('Table',       $node,  $element,   $styles,    null,   'skipTbody',    true), //added to catch tbody in html.
             'tr'        => array('Table',       $node,  $element,   $styles,    null,   'addRow',       true),
             'td'        => array('Table',       $node,  $element,   $styles,    null,   'addCell',      true),
             'ul'        => array('List',        null,   null,       $styles,    $data,  3,              null),
@@ -177,6 +178,18 @@ class Html
             $cNodes = $node->childNodes;
             if (count($cNodes) > 0) {
                 foreach ($cNodes as $cNode) {
+                    // Added to get tables to work                    
+                    $htmlContainers = array(
+                        'tbody',
+                        'tr',
+                        'td',
+                    );
+                    
+                    if (in_array( $cNode->nodeName, $htmlContainers ) ) {                        
+                        self::parseNode($cNode, $element, $styles, $data);
+                    }
+
+                    // All other containers as defined in AbstractContainer
                     if ($element instanceof AbstractContainer) {
                         self::parseNode($cNode, $element, $styles, $data);
                     }
@@ -269,9 +282,25 @@ class Html
      */
     private static function parseTable($node, $element, &$styles, $argument1)
     {
-        $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
+        // $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']);
 
-        $newElement = $element->$argument1();
+        // $newElement = $element->$argument1();
+
+        switch ($argument1) {
+            case 'addTable':                        
+                $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']); 
+                $newElement = $element->addTable('table', array('width' => 90));
+                break;
+            case 'skipTbody':                        
+                $newElement = $element;
+                break;
+            case 'addRow':                        
+                $newElement = $element->addRow();
+                break;
+            case 'addCell':                        
+                $newElement = $element->addCell(1750);
+                break;
+        }
 
         // $attributes = $node->attributes;
         // if ($attributes->getNamedItem('width') !== null) {

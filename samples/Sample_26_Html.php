@@ -14,6 +14,12 @@ $html .= '<ul><li>Item 1</li><li>Item 2</li><ul><li>Item 2.1</li><li>Item 2.1</l
 $html .= '<p>Ordered (numbered) list:</p>';
 $html .= '<ol><li>Item 1</li><li>Item 2</li></ol>';
 
+$html .= '<p>table1</p>';
+$html .= '<table><tr><td>Item 1</td><td>Item 2</td></tr><tr><td>Item 3</td><td>Item 4</td></tr></table>';
+$html .= '<p>table2</p>';
+$html .= '<table><tbody><tr><td>Item 1</td><td>Item 2</td></tr><tr><td>Item 3</td><td>Item 4</td></tr></tbody></table>';
+
+
 \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
 
 // Save file
