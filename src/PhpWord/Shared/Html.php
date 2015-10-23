@@ -289,7 +289,14 @@ class Html
         switch ($argument1) {
             case 'addTable':                        
                 $styles['paragraph'] = self::parseInlineStyle($node, $styles['paragraph']); 
-                $newElement = $element->addTable('table', array('width' => 90));
+                $tableStyle = array(
+                    'borderColor' => '006699',
+                    'borderSize' => 6,
+                    'width' => 100 * 50, 
+                    'unit' => 'pct', 
+                    'align' => 'center'
+                );
+                $newElement = $element->addTable($tableStyle);
                 break;
             case 'skipTbody':                        
                 $newElement = $element;
